@@ -1,68 +1,178 @@
-# CodeIgniter 4 Application Starter
+# Website Toko
+Website toko ini adalah sistem belanja online  berbasis CodeIgniter 4. 
 
-## What is CodeIgniter?
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Features Website Toko 
+##### Autentikasi dan Role Akses
+- Login dan Logout
+- Role "admin" dan "guest" dengan hak akses berbeda
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+##### Menu Home
+- Tampilan produk di halaman utama.
+- Mendukung diskon otomatis berdasarkan tanggal aktif.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+##### Menu Produk untuk role admin
+- Tambah data produk, hapus data produk, edit data produk, dan download data produk dalam format pdf
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+##### Menu Keranjang 
+- Tambah produk ke keranjang, edit jumlah produk, hapus produk, selesai belanja dan kosongkan keranjang.
 
-## Installation & updates
+##### Menu Diskon untuk role admin
+- Menambah data diskon dengan menentukan tanggal dan nominal diskon
+- Edit data diskon dengan ketentuan tanggal Readonly
+- Hapus data diskon
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+##### Menu Pembelian untuk role admin
+- Menampilkan semua transaksi pembelian dari user.
+- Admin bisa mengubah status pesanan (belum/sudah selesai).
+- Modal detail produk per transaksi.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+##### Menu Profile
+- Menampilkan history transaksi pembelian
 
-## Setup
+##### Menu Produk Kategori
+- Menampilkan data kategori produk
+- Edit kategori produk dan hapus kategori produk
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+##### Halaman Dashboard Admin
+- Menampilkan ringkasan pembelian secara tabel.
 
-## Important Change with index.php
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Instalasi
+- Install composer dengan menjalankan perintah composer install untuk mengunduh dependensi
+- lalu jalankan composer create-project codeigniter4/appstarter
+- Setup file .env , buat salinan dari file env menjadi .env
+- Setup database dengan membuat database baru dan membuat tabel user, product, transaction, transacton_detail, diskon.
+- Aktifkan XAMPP
+- Jalankan server dengan menggunakan perintah php spark serve
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Struktur Proyek
+📦app
+ ┣ 📂Config
+ ┃ ┣ 📂Boot
+ ┃ ┃ ┣ 📜development.php
+ ┃ ┃ ┣ 📜production.php
+ ┃ ┃ ┗ 📜testing.php
+ ┃ ┣ 📜App.php
+ ┃ ┣ 📜Autoload.php
+ ┃ ┣ 📜Cache.php
+ ┃ ┣ 📜Constants.php
+ ┃ ┣ 📜ContentSecurityPolicy.php
+ ┃ ┣ 📜Cookie.php
+ ┃ ┣ 📜Cors.php
+ ┃ ┣ 📜CURLRequest.php
+ ┃ ┣ 📜Database.php
+ ┃ ┣ 📜DocTypes.php
+ ┃ ┣ 📜Email.php
+ ┃ ┣ 📜Encryption.php
+ ┃ ┣ 📜Events.php
+ ┃ ┣ 📜Exceptions.php
+ ┃ ┣ 📜Feature.php
+ ┃ ┣ 📜Filters.php
+ ┃ ┣ 📜ForeignCharacters.php
+ ┃ ┣ 📜Format.php
+ ┃ ┣ 📜Generators.php
+ ┃ ┣ 📜Honeypot.php
+ ┃ ┣ 📜Images.php
+ ┃ ┣ 📜Kint.php
+ ┃ ┣ 📜Logger.php
+ ┃ ┣ 📜Migrations.php
+ ┃ ┣ 📜Mimes.php
+ ┃ ┣ 📜Modules.php
+ ┃ ┣ 📜Optimize.php
+ ┃ ┣ 📜Pager.php
+ ┃ ┣ 📜Paths.php
+ ┃ ┣ 📜Publisher.php
+ ┃ ┣ 📜Routes.php
+ ┃ ┣ 📜Routing.php
+ ┃ ┣ 📜Security.php
+ ┃ ┣ 📜Services.php
+ ┃ ┣ 📜Session.php
+ ┃ ┣ 📜Toolbar.php
+ ┃ ┣ 📜UserAgents.php
+ ┃ ┣ 📜Validation.php
+ ┃ ┗ 📜View.php
+ ┣ 📂Controllers
+ ┃ ┣ 📜ApiController.php
+ ┃ ┣ 📜AuthController.php
+ ┃ ┣ 📜BaseController.php
+ ┃ ┣ 📜ContactController.php
+ ┃ ┣ 📜DiskonController.php
+ ┃ ┣ 📜FaqController.php
+ ┃ ┣ 📜Home.php
+ ┃ ┣ 📜ProductCategoryController.php
+ ┃ ┣ 📜ProdukController.php
+ ┃ ┗ 📜TransaksiController.php
+ ┣ 📂Database
+ ┃ ┣ 📂Migrations
+ ┃ ┃ ┣ 📜.gitkeep
+ ┃ ┃ ┣ 📜2025-06-21-022151_User.php
+ ┃ ┃ ┣ 📜2025-06-21-022158_Product.php
+ ┃ ┃ ┣ 📜2025-06-21-022205_Transaction.php
+ ┃ ┃ ┣ 📜2025-06-21-022212_TransactionDetail.php
+ ┃ ┃ ┣ 📜2025-06-21-022220_ProductCategory.php
+ ┃ ┃ ┗ 📜2025-06-30-084606_Diskon.php
+ ┃ ┗ 📂Seeds
+ ┃ ┃ ┣ 📜.gitkeep
+ ┃ ┃ ┣ 📜DiskonSeeder.php
+ ┃ ┃ ┣ 📜ProductCategorySeeder.php
+ ┃ ┃ ┣ 📜ProductSeeder.php
+ ┃ ┃ ┗ 📜UserSeeder.php
+ ┣ 📂Filters
+ ┃ ┣ 📜.gitkeep
+ ┃ ┣ 📜Auth.php
+ ┃ ┗ 📜Redirect.php
+ ┣ 📂Helpers
+ ┃ ┗ 📜.gitkeep
+ ┣ 📂Language
+ ┃ ┣ 📂en
+ ┃ ┃ ┗ 📜Validation.php
+ ┃ ┗ 📜.gitkeep
+ ┣ 📂Libraries
+ ┃ ┗ 📜.gitkeep
+ ┣ 📂Models
+ ┃ ┣ 📜.gitkeep
+ ┃ ┣ 📜DiskonModel.php
+ ┃ ┣ 📜ProductCategoryModel.php
+ ┃ ┣ 📜ProductModel.php
+ ┃ ┣ 📜TransactionDetailModel.php
+ ┃ ┣ 📜TransactionModel.php
+ ┃ ┗ 📜UserModel.php
+ ┣ 📂ThirdParty
+ ┃ ┗ 📜.gitkeep
+ ┣ 📂Views
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📜footer.php
+ ┃ ┃ ┣ 📜header.php
+ ┃ ┃ ┗ 📜sidebar.php
+ ┃ ┣ 📂errors
+ ┃ ┃ ┣ 📂cli
+ ┃ ┃ ┃ ┣ 📜error_404.php
+ ┃ ┃ ┃ ┣ 📜error_exception.php
+ ┃ ┃ ┃ ┗ 📜production.php
+ ┃ ┃ ┗ 📂html
+ ┃ ┃ ┃ ┣ 📜debug.css
+ ┃ ┃ ┃ ┣ 📜debug.js
+ ┃ ┃ ┃ ┣ 📜error_400.php
+ ┃ ┃ ┃ ┣ 📜error_404.php
+ ┃ ┃ ┃ ┣ 📜error_exception.php
+ ┃ ┃ ┃ ┗ 📜production.php
+ ┃ ┣ 📜layout.php
+ ┃ ┣ 📜layout_clear.php
+ ┃ ┣ 📜v_checkout.php
+ ┃ ┣ 📜v_contact.php
+ ┃ ┣ 📜v_diskon.php
+ ┃ ┣ 📜v_faq.php
+ ┃ ┣ 📜v_home.php
+ ┃ ┣ 📜v_kategori.php
+ ┃ ┣ 📜v_keranjang.php
+ ┃ ┣ 📜v_login.php
+ ┃ ┣ 📜v_pembelian.php
+ ┃ ┣ 📜v_produk.php
+ ┃ ┣ 📜v_produkPDF.php
+ ┃ ┣ 📜v_profile.php
+ ┃ ┗ 📜welcome_message.php
+ ┣ 📜.htaccess
+ ┣ 📜Common.php
+ ┗ 📜index.html
 
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
