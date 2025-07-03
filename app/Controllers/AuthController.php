@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\DiskonModel;
 
 use App\Models\UserModel; 
 
@@ -39,6 +40,15 @@ class AuthController extends BaseController
                         'role' => $dataUser['role'],
                         'isLoggedIn' => TRUE
                     ]);
+
+                    // Tambahkan diskon harian ke session
+                        $diskonModel = new DiskonModel();
+                        $hariIni = date('Y-m-d');
+                        $diskon = $diskonModel->where('tanggal', $hariIni)->first();
+
+                        if ($diskon) {
+                            session()->set('diskon_hari_ini', $diskon['nominal']);
+                        }
 
                     return redirect()->to(base_url('/'));
                 } else {

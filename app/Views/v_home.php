@@ -11,6 +11,7 @@ if (session()->getFlashData('success')) {
 }
 ?>
 
+
 <!-- Table with stripped rows -->
 <div class="row">
     <?php foreach ($product as $key => $item) : ?>

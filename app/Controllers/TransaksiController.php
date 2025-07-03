@@ -18,6 +18,7 @@ class TransaksiController extends BaseController
 
     function __construct()
     {
+        date_default_timezone_set('Asia/Jakarta');
         helper('number');
         helper('form');
         $this->cart = \Config\Services::cart();
@@ -32,16 +33,67 @@ class TransaksiController extends BaseController
         $data['items'] = $this->cart->contents();
         $data['total'] = $this->cart->total();
         return view('v_keranjang', $data);
+
+        
     }
+
+    
+
+    public function manage()
+{
+    if (session()->get('role') !== 'admin') {
+        return redirect()->to('/')->with('failed', 'Akses ditolak. Hanya admin yang dapat mengakses menu ini.');
+    }
+
+    $data['pembelian'] = $this->transaction->findAll();
+
+    // Ambil semua detail produk berdasarkan transaksi
+    $product = [];
+    foreach ($data['pembelian'] as $row) {
+        $product[$row['id']] = $this->transaction_detail
+            ->select('transaction_detail.*, product.nama, product.foto, product.harga')
+            ->join('product', 'product.id = transaction_detail.product_id')
+            ->where('transaction_id', $row['id'])
+            ->findAll();
+    }
+    $data['product'] = $product;
+
+    return view('v_pembelian', $data);
+}
+
+
+
+public function ubah_status($id)
+{
+    if (session()->get('role') !== 'admin') {
+        return redirect()->to('/')->with('failed', 'Akses ditolak.');
+    }
+
+    $transaksi = $this->transaction->find($id);
+    if (!$transaksi) {
+        return redirect()->to('pembelian')->with('failed', 'Data tidak ditemukan.');
+    }
+
+    $newStatus = $transaksi['status'] == 0 ? 1 : 0;
+    $this->transaction->update($id, ['status' => $newStatus]);
+
+    return redirect()->to('pembelian')->with('success', 'Status pesanan berhasil diubah.');
+}
 
     public function cart_add()
     {
+        $hargaAwal = $this->request->getPost('harga');
+        $diskon = session()->get('diskon_hari_ini') ?? 0;
+        $hargaSetelahDiskon = max(0, $hargaAwal - $diskon);
+        
         $this->cart->insert(array(
             'id'        => $this->request->getPost('id'),
             'qty'       => 1,
-            'price'     => $this->request->getPost('harga'),
+            'price'     => $hargaSetelahDiskon,
             'name'      => $this->request->getPost('nama'),
-            'options'   => array('foto' => $this->request->getPost('foto'))
+            'options'   => array('foto' => $this->request->getPost('foto')),
+            'harga_awal' => $hargaAwal,
+            'diskon' => $diskon
         ));
         session()->setflashdata('success', 'Produk berhasil ditambahkan ke keranjang. (<a href="' . base_url() . 'keranjang">Lihat</a>)');
         return redirect()->to(base_url('/'));
@@ -163,7 +215,7 @@ public function buy()
                 'transaction_id' => $last_insert_id,
                 'product_id' => $value['id'],
                 'jumlah' => $value['qty'],
-                'diskon' => 0,
+                'diskon' => $value['options']['diskon'] ?? 0,
                 'subtotal_harga' => $value['qty'] * $value['price'],
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")

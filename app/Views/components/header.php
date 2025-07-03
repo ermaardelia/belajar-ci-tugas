@@ -16,6 +16,13 @@
   </form>
 </div><!-- End Search Bar -->
 
+ <?php if (session()->get('diskon_hari_ini')) : ?>
+    <div class="badge bg-success text-white px-3 py-2 " style="font-size: 14px;">
+      Hari ini ada diskon <?= session()->get('diskon_hari_ini') ?> per item
+    </div>
+  <?php endif; ?>
+</div>
+
 <nav class="header-nav ms-auto">
   <ul class="d-flex align-items-center">
 
@@ -225,5 +232,7 @@
 
   </ul>
 </nav><!-- End Icons Navigation -->
+
+
 
 </header><!-- End Header -->

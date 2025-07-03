@@ -28,6 +28,12 @@ class Home extends BaseController
     $product = $this->product->findAll();
     $data['product'] = $product;
 
+      // Ambil nominal diskon dari session jika ada
+    if (session()->has('diskon_hari_ini')) {
+        $data['diskon_hari_ini'] = session('diskon_hari_ini');
+    }
+
+
     return view('v_home', $data);
    }
 
